@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
+
+.font-playfair {
+  /* USE THIS AS MAIN FONT FOR HEADINGS */
+  /* font-family: 'Playfair Display', serif; */
+  font-family: 'Arial', serif;
+}
+
+.dark {
+  --bg-color: #1f2937;
+  --text-color: #f3f4f6;
+}
+
+body {
+  font-family: 'Arial', serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
