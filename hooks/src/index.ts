@@ -1,13 +1,44 @@
-import express from 'express';
+import express from "express";
+import { PrismaClient } from "@prisma/client";
 
+const client = new PrismaClient();
 const app = express();
 
-app.post("/hooks/catch/:userId/:zapId", (req, res) => {
-    const { userId, zapId } = req.params;
+app.use(express.json());
 
-    console.log(`User ${userId} has a new zap with id ${zapId}`);
+app.post("/hooks/catch/:userId/:zapId", async (req, res) => {
+  const { userId, zapId } = req.params;
+  const body = req.body; // extract metadata from this
 
-    res.status(200).send();
+  try {
+    // store the trigger in the db
+    await client.$transaction(async (tx) => {
+      await tx.zapRun.create({
+        data: {
+          zapId: zapId,
+          metadata: body,
+          zapRunOutbox: {
+            create: {},
+          },
+        },
+        include: {
+          zapRunOutbox: true,
+        },
+      });
+    });
+
+    res.status(200).json({
+      status: "success",
+      message: "Trigger stored successfully",
+      data: "",
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: "error",
+      message: "Error in storing trigger",
+      data: "",
+    });
+  }
 });
 
-export default app;
+app.listen(3000, () => console.log("Server running on port 3000!"));
