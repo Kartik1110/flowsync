@@ -24,6 +24,8 @@ export const ThemeProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     // Check if we're in the browser environment
     if (typeof window !== "undefined") {
+      if (!localStorage.getItem("darkMode")) localStorage.setItem("darkMode", "false")
+
       const isDarkMode = localStorage.getItem("darkMode") === "true";
       setDarkMode(isDarkMode);
       applyTheme(isDarkMode);
