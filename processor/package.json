@@ -1,9 +1,9 @@
 {
-  "name": "processor",
+  "name": "outbox-processor",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc -b && node dist/index.js"
   },
   "keywords": [],
   "author": "",
@@ -11,6 +11,10 @@
   "description": "",
   "dependencies": {
     "@prisma/client": "^5.20.0",
+    "kafkajs": "^2.2.4",
     "prisma": "^5.20.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.7.5"
   }
 }
