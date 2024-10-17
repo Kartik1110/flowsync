@@ -12,3 +12,11 @@ const kafka = new Kafka({
   clientId: "outbox-processor",
   brokers: KAFKA_BROKERS,
 });
+
+async function main () {
+  const consumer = kafka.consumer({groupId: 'main-worker'})
+  
+
+}
+
+main()
