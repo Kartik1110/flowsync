@@ -13,10 +13,11 @@ const kafka = new Kafka({
   brokers: KAFKA_BROKERS,
 });
 
-async function main () {
-  const consumer = kafka.consumer({groupId: 'main-worker'})
-  
+async function main() {
+  const consumer = kafka.consumer({ groupId: "main-worker" });
+  await consumer.connect();
 
+  await consumer.subscribe({ topic: TOPIC_NAME, fromBeginning: true });
 }
 
-main()
+main();
