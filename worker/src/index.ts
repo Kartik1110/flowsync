@@ -18,6 +18,21 @@ async function main() {
   await consumer.connect();
 
   await consumer.subscribe({ topic: TOPIC_NAME, fromBeginning: true });
+
+  await consumer.run({
+    autoCommit: false,
+    eachMessage: async ({ topic, partition, message }) => {
+      console.log(topic, partition, message);
+
+      await consumer.commitOffsets([
+        {
+          topic: TOPIC_NAME,
+          partition,
+          offset: (parseInt(message.offset) + 1).toString(),
+        },
+      ]);
+    },
+  });
 }
 
 main();
